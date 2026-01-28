@@ -8,7 +8,7 @@ logs-max-total-size-mb: 100
 
 remote-management:
   allow-remote: true
-  secret-key: "admin123"
+  # secret-key được quản lý qua biến môi trường MANAGEMENT_PASSWORD
 
 api-keys:
   - "mun-key-01"
