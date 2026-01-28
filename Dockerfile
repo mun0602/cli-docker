@@ -1,37 +1,10 @@
-FROM golang:1.24-alpine AS builder
+FROM eceasy/cli-proxy-api:latest
 
-WORKDIR /app
+# Config và auth được mount từ volume bên ngoài, không copy vào image
+# Mount points:
+#   - /CLIProxyAPI/config.yaml (file config)
+#   - /root/.cli-proxy-api (thư mục auth)
 
-COPY go.mod go.sum ./
+EXPOSE 8317 8085 1455 54545 51121
 
-RUN go mod download
-
-COPY . .
-
-ARG VERSION=dev
-ARG COMMIT=none
-ARG BUILD_DATE=unknown
-
-RUN CGO_ENABLED=0 GOOS=linux go build -buildvcs=false -ldflags="-s -w -X 'main.Version=${VERSION}' -X 'main.Commit=${COMMIT}' -X 'main.BuildDate=${BUILD_DATE}'" -o ./CLIProxyAPI ./cmd/server/
-
-FROM alpine:3.22.0
-
-RUN apk add --no-cache tzdata
-
-RUN mkdir /CLIProxyAPI
-
-COPY --from=builder ./app/CLIProxyAPI /CLIProxyAPI/CLIProxyAPI
-
-# Force rebuild config layer - update this timestamp to bust cache
-ARG CACHE_BUST=20260128v2
-COPY config.example.yaml /CLIProxyAPI/config.yaml
-
-WORKDIR /CLIProxyAPI
-
-EXPOSE 8317
-
-ENV TZ=Asia/Shanghai
-
-RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && echo "${TZ}" > /etc/timezone
-
-CMD ["./CLIProxyAPI"]
+CMD ["/CLIProxyAPI/CLIProxyAPI"]
