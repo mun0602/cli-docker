@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   cli-proxy-api:
     image: eceasy/cli-proxy-api:latest
@@ -7,16 +8,16 @@ services:
     environment:
       # BẮT BUỘC: Chế độ tự động cấu hình cho Dokploy
       - DEPLOY=dokploy
-      # Mật khẩu để bạn đăng nhập vào trang Web quản trị
+      # Mật khẩu quản trị
       - MANAGEMENT_PASSWORD=Chinhniem@0602
     ports:
-      - "8317:8317"     # Cổng API và Web UI
-      - "8085:8085"     # Login Gemini
-      - "1455:1455"     # Login Codex
-      - "54545:54545"   # Login Claude
+      - "8317:8317"
+      - "8085:8085"
+      - "1455:1455"
+      - "54545:54545"
     volumes:
-      # Mount từ đường dẫn trên server Dokploy
-      - /home/cliproxy/config.yaml:/CLIProxyAPI/config.yaml
-      - /home/cliproxy/auths:/root/.cli-proxy-api
-      - /home/cliproxy/logs:/CLIProxyAPI/logs
+      # Dùng relative path để Dokploy tự nhận file trong repo
+      - ./config.yaml:/CLIProxyAPI/config.yaml
+      - ./auths:/root/.cli-proxy-api
+      - ./logs:/CLIProxyAPI/logs
     restart: unless-stopped
