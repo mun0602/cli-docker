@@ -1,10 +1,4 @@
+# Dockerfile không cần build - dùng image chính thức
+# Sử dụng docker-compose.yml để deploy
+
 FROM eceasy/cli-proxy-api:latest
-
-# Config và auth được mount từ volume bên ngoài, không copy vào image
-# Mount points:
-#   - /CLIProxyAPI/config.yaml (file config)
-#   - /root/.cli-proxy-api (thư mục auth)
-
-EXPOSE 8317 8085 1455 54545 51121
-
-CMD ["/CLIProxyAPI/CLIProxyAPI"]
