@@ -2,25 +2,24 @@
 host: ""
 port: 8317
 
-# Thư mục lưu auth tokens (được mount từ volume)
+# Thư mục lưu auth tokens inside container
 auth-dir: "/root/.cli-proxy-api"
 
 logging-to-file: true
 logs-max-total-size-mb: 100
 
-# Management API - CHO PHÉP REMOTE
+# Management API - BẬT REMOTE ĐỂ DÙNG WEB UI
 remote-management:
   allow-remote: true
-  # Password: Chinhniem@0602 (bcrypt hash)
-  secret-key: "$2y$10$J.1Qi6uOUjlTQIM5tNDq3ui60T64n3KZjFLW1JOEUSZ0xGVdWIbk2"
+  # Mật khẩu sẽ được ưu tiên lấy từ biến MANAGEMENT_PASSWORD trong docker-compose.yml
   disable-control-panel: false
   panel-github-repository: "https://github.com/router-for-me/Cli-Proxy-API-Management-Center"
 
-# API keys để các client kết nối
+# API keys để các client kết nối (User Mun ca)
 api-keys:
   - "mun-key-01"
 
-# Model aliases
+# Model aliases cho Mun ca
 oauth-model-alias:
   antigravity:
     - name: "rev19-uic3-1p"
