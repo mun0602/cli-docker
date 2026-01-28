@@ -22,6 +22,8 @@ RUN mkdir /CLIProxyAPI
 
 COPY --from=builder ./app/CLIProxyAPI /CLIProxyAPI/CLIProxyAPI
 
+# Force rebuild config layer - update this timestamp to bust cache
+ARG CACHE_BUST=20260128v2
 COPY config.example.yaml /CLIProxyAPI/config.yaml
 
 WORKDIR /CLIProxyAPI
